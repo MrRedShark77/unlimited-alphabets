@@ -3,6 +3,7 @@ var news = [
     'Subscribe SuperSpruce!',
     'Alex is Alexis. -MrRedShark77',
     'BEEE... -Unverifyed',
+    "Guys! The n-word has been revealed! It's ninth dimension! -SuperSpruce",
 ];
 
 rand = function(min, max) {

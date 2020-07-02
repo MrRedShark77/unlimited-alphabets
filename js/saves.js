@@ -16,27 +16,31 @@ function wipe(){
       b: E(0),
       c: E(0),
       d: E(0),
+      e: E(0),
     },
     alphabets_upgrades: {
       a: [false, false, false, false, false, false, false, false, false, false],
       b: [false, false, false, false, false, false, false, false, false],
       c: [false, false, false, false, false, false, false, false],
       d: [false, false, false, false, false, false, false],
+      e: [false, false],
     },
     alphabets_upgrades_cost: {
       a: [E(0), E(25), E(100), E('2.5e3'), E('3e6'), E('5e8'), E('1e12'), E('1e16'), E('1.5e22'), E('1e30')],
       b: [E(5), E(50), E(300), E(3500), E('1.5e6'), E('2.5e7'), E('5e8'), E('2e11'), E('1e15')],
       c: [E(5), E(25), E(100), E('1e3'), E('7.5e3'), E('2e4'), E('2.5e5'), E('1.5e9')],
-      d: [E(5), E(15), E(65), E(225), E('1.5e3'), E('5e4'), E('2e5')],
+      d: [E(5), E(15), E(65), E(225), E('1.5e3'), E('2.5e4'), E('3e5')],
+      e: [E(5), E(20)],
     },
-    show_alphabets: [true, false, false, false],
+    show_alphabets: [true, false, false, false, false],
     show_alphabets_upgrades: {
       a: [true, false, false, false, false, false, false, false, false, false],
       b: [false, false, false, false, false, false, false, false, false],
       c: [false, false, false, false, false, false, false, false],
       d: [false, false, false, false, false, false, false],
+      e: [false, false],
     },
-    aplhabets_autobuyer: [false, false, false, false],
+    aplhabets_autobuyer: [false, false, false, false, false],
   };
 }
 

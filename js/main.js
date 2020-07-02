@@ -50,6 +50,7 @@ function getRAlp(alp){
             .mul((game.alphabets_upgrades.d[0])?5:1)
             .mul((game.alphabets_upgrades.d[3])?5:1)
             .mul((game.alphabets_upgrades.a[9])?game.value.a.add(1).log10().add(1).log10():1)
+            .mul((game.alphabets_upgrades.e[1])?game.value.e.pow(1/8).add(1):1)
             .pow((game.alphabets_upgrades.c[1])?1.1:1)
             .pow((game.alphabets_upgrades.c[7])?2:1);
             break;
@@ -61,13 +62,18 @@ function getRAlp(alp){
             .mul((game.alphabets_upgrades.b[8])?5:1)
             .mul((game.alphabets_upgrades.d[3])?5:1)
             .mul((game.alphabets_upgrades.d[6])?game.value.d.pow(1/4).add(1):1)
+            .mul((game.alphabets_upgrades.e[1])?game.value.e.pow(1/8).add(1):1)
             .pow((game.alphabets_upgrades.d[1])?1.1:1);
             break;
         case 3:
             rAlp = rAlp.mul((game.alphabets_upgrades.a[8])?3:1)
             .mul((game.alphabets_upgrades.a[9])?game.value.a.add(1).log10().add(1).log10():1)
             .mul((game.alphabets_upgrades.b[7])?2:1)
-            .mul((game.alphabets_upgrades.b[8])?5:1);
+            .mul((game.alphabets_upgrades.b[8])?5:1)
+            .mul((game.alphabets_upgrades.e[0])?5:1);
+            break;
+        case 4:
+            rAlp = rAlp.mul((game.alphabets_upgrades.a[9])?game.value.a.add(1).log10().add(1).log10():1);
             break;
     }
 
@@ -100,6 +106,8 @@ function updateDisplay(){
                 upd('c7', notate(getRAlp(3).div(1000),2));
             } else if(alphabet_string[i]+'u'+j == 'du7'){
                 upd('c8', notate(game.value.d.pow(1/4).add(1),2));
+            } else if(alphabet_string[i]+'u'+j == 'eu2'){
+                upd('c9', notate(game.value.e.pow(1/8).add(1),2));
             }
             upd(alphabet_string[i]+'u'+j,notate(game.alphabets_upgrades_cost[alphabet_string[i]][j-1],2));  
         }
@@ -146,6 +154,9 @@ function updateDisplay(){
         game.alphabets_upgrades.d[1],
         game.alphabets_upgrades.d[4],
         game.alphabets_upgrades.d[4]],
+        e: [game.show_alphabets[4],
+        game.show_alphabets[4]
+        ],
     }
 }
 
@@ -188,12 +199,13 @@ function calc(dt){
     .mul((game.alphabets_upgrades.c[0])?5:1)
     .mul((game.alphabets_upgrades.c[2])?game.value.c.pow(1/((game.alphabets_upgrades.d[2])?5:8)).add(1):1)
     .mul((game.alphabets_upgrades.d[0])?5:1)
+    .mul((game.alphabets_upgrades.e[0])?5:1)
     .pow((game.alphabets_upgrades.a[3])?2:1)
     .pow((game.alphabets_upgrades.a[5])?1.2:1)
     .pow((game.alphabets_upgrades.d[1])?1.1:1)
     .mul(dt/1000):0);
 
-    for(let i = 1; i < game.show_alphabets.length; i++){
+    for(let i = 1; i < game.show_alphabets.length - 1; i++){
         let rAlp = getRAlp(i)
         
         switch(i){

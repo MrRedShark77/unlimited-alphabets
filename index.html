@@ -16,7 +16,7 @@
   </head>  
   <body>
     <div id="news_ticker">Welcome Unlimited Alphabets!</div>
-    <h1>Unlimited Alphabets</h1>
+    <h1>Unlimited Alphabets v0.1.1a</h1>
     <div id="tabsBlock">
       <button class="tab1" onclick="switchTabs('alphabets')">Alphabets</button>
       <button class="tab1" onclick="switchTabs('upgrades')">Upgrades</button>
@@ -126,6 +126,9 @@
             </div>
           </td>
           <td class="alphabet_tab" id="d_tab">
+            <button class="alp_upgrade" id="bre" onclick="resetAlp(4)">
+              Reset for<br>e-<span id="re"></span>
+            </button>
             <div class="alp_main" id="d_value"></div>
               <button class="alp_upgrade" id="dus1" onclick="buyAlpUpgrade('d',0)">
                 Multiply a & b production by 5.<br>d-<span id="du1"></span>
@@ -150,16 +153,27 @@
               </button>
             </div>
           </td>
+          <td class="alphabet_tab" id="e_tab">
+            <div class="alp_main" id="e_value"></div>
+              <button class="alp_upgrade" id="eus1" onclick="buyAlpUpgrade('e',0)">
+                Multiply a & d production by 5.<br>e-<span id="eu1"></span>
+              </button>
+              <button class="alp_upgrade" style="display: block;" id="eus2" onclick="buyAlpUpgrade('e',1)">
+                Multiply b & c production by e^1/8+1.<br>Currently: x<span id="c9"></span><br>e-<span id="eu2"></span>
+              </button>
+            </div>
+          </td>
         </tbody>
       </table>
     </div>
     <div class="main" id="upgrades" style="display: none;">
       <h2>Autobuyer</h2>
       <div>
-        <button class="alp_upgrade exportsave" id="afa" onclick="buyAAutobuyer('a')">Autobuyer for a<br>a-1e15</button>
+        <button class="alp_upgrade" id="afa" onclick="buyAAutobuyer('a')">Autobuyer for a<br>a-1e15</button>
         <button class="alp_upgrade" id="afb" onclick="buyAAutobuyer('b')">Autobuyer for b<br>b-1e15</button>
         <button class="alp_upgrade" id="afc" onclick="buyAAutobuyer('c')">Autobuyer for c<br>c-1e15</button>
         <button class="alp_upgrade" id="afd" onclick="buyAAutobuyer('d')">Autobuyer for d<br>d-1e15</button>
+        <button class="alp_upgrade" id="afe" onclick="buyAAutobuyer('e')">Autobuyer for e<br>e-1e15</button>
       </div>
     </div>
     <div class="main" id="options" style="display: none;">

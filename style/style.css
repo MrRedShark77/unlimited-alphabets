@@ -1,6 +1,6 @@
 @font-face {
   font-family: mono;
-  src: url('https://cdn.glitch.com/8f2a9172-9fe6-4ccb-a25d-a5827288d707%2FMonospaceTypewriter.ttf?v=1593344247207');
+  src: url('MonospaceTypewriter.ttf');
 }
 
 table.fixed { table-layout:fixed; }
@@ -29,11 +29,11 @@ button.alp_upgrade {
 
 #news_ticker {
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 15px;
   border: 2px solid black;
   background: white;
   width: 750px;
-  height: 25px;
+  height: 20px;
   text-align: center;
 }
 
