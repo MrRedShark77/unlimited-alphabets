@@ -1,0 +1,76 @@
+@font-face {
+  font-family: mono;
+  src: url('https://cdn.glitch.com/8f2a9172-9fe6-4ccb-a25d-a5827288d707%2FMonospaceTypewriter.ttf?v=1593344247207');
+}
+
+table.fixed { table-layout:fixed; }
+table.fixed td { overflow: hidden; }
+
+body {
+  font-family: mono;
+  margin: 2em;
+  background-color: gray;
+}
+
+.wipe {
+  background-color: red;
+}
+
+button.alp_upgrade {
+  margin: 5px;
+  font-size: 12px;
+  width: 160px;
+  height: 100px;
+}
+
+.main {
+  margin: 1em;
+}
+
+#news_ticker {
+  border-radius: 5px;
+  font-size: 20px;
+  border: 2px solid black;
+  background: white;
+  width: 750px;
+  height: 25px;
+  text-align: center;
+}
+
+.alphabet_tab {
+  background-color: lightgray;
+  border-radius: 5px;
+  vertical-align: top;
+  table-layout: fixed;
+}
+
+.alp_main {
+  background-color: gray;
+  margin: 5px;
+  padding: 2px;
+  width: 160px;
+  height: 50px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#outputExport {
+  width: 600px;
+  word-wrap: break-word;
+}
+
+button {
+  border-radius: 5px;
+  font-size: 20px;
+  border: 2px solid black;
+  background: white;
+  transition-duration: 0.2s;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:focus {
+  outline: 0;
+}
