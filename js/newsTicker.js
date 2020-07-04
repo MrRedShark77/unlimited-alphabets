@@ -4,6 +4,7 @@ var news = [
     'Alex is Alexis. -MrRedShark77',
     'BEEE... -Unverifyed',
     "Guys! The n-word has been revealed! It's ninth dimension! -SuperSpruce",
+    "Tips: You lazy press each upgrade? Press or hold M to buy all upgrades!",
 ];
 
 rand = function(min, max) {

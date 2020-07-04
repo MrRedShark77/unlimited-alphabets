@@ -1,5 +1,14 @@
 var game;
 var alphabet_string = 'abcdefghijklmnopqrstuvwxyz';
+var keysDown = {};
+
+addEventListener("keydown", function(e){
+    keysDown[e.keyCode] = true;
+}, false);
+
+addEventListener("keyup", function(e){
+    delete keysDown[e.keyCode];
+}, false);
 
 function init(){
     wipe();
@@ -70,10 +79,14 @@ function getRAlp(alp){
             .mul((game.alphabets_upgrades.a[9])?game.value.a.add(1).log10().add(1).log10():1)
             .mul((game.alphabets_upgrades.b[7])?2:1)
             .mul((game.alphabets_upgrades.b[8])?5:1)
+            .mul((game.alphabets_upgrades.c[8])?2:1)
             .mul((game.alphabets_upgrades.e[0])?5:1);
             break;
         case 4:
-            rAlp = rAlp.mul((game.alphabets_upgrades.a[9])?game.value.a.add(1).log10().add(1).log10():1);
+            rAlp = rAlp.mul((game.alphabets_upgrades.a[9])?game.value.a.add(1).log10().add(1).log10():1)
+            .mul((game.alphabets_upgrades.b[9])?2:1)
+            .mul((game.alphabets_upgrades.c[8])?2:1)
+            .mul((game.alphabets_upgrades.d[7])?2:1);
             break;
     }
 
@@ -91,7 +104,7 @@ function updateDisplay(){
             document.getElementById(alphabet_string[i]+'us'+j).style.display = (game.show_alphabets_upgrades[alphabet_string[i]][j-1]) ? "block" : "none";
             document.getElementById(alphabet_string[i]+'us'+j).style.background = (game.alphabets_upgrades[alphabet_string[i]][j-1]) ? "lightgreen" : "white";
             if(alphabet_string[i]+'u'+j == 'bu1'){
-                upd('c1', notate(game.value.b.pow(1/((game.alphabets_upgrades.b[4])?3:4)).add(1),2));
+                upd('c1', notate(game.value.b.pow(1/((game.alphabets_upgrades.b[4] || game.alphabets_upgrades.e[2])?((game.alphabets_upgrades.e[2])?2:3):4)).add(1),2));
             } else if(alphabet_string[i]+'u'+j == 'cu3'){
                 upd('c2', notate(game.value.c.pow(1/((game.alphabets_upgrades.d[2])?5:8)).add(1),2));
             } else if(alphabet_string[i]+'u'+j == 'bu4'){
@@ -138,7 +151,8 @@ function updateDisplay(){
         game.alphabets_upgrades.b[1] & game.show_alphabets[2],
         game.alphabets_upgrades.b[4],
         game.alphabets_upgrades.b[5] & game.show_alphabets[3],
-        game.alphabets_upgrades.b[7]],
+        game.alphabets_upgrades.b[7],
+        game.alphabets_upgrades.b[8] & game.show_alphabets[4]],
         c: [game.show_alphabets[2],
         game.show_alphabets[2],
         game.alphabets_upgrades.c[0] & game.alphabets_upgrades.c[1],
@@ -146,17 +160,19 @@ function updateDisplay(){
         game.alphabets_upgrades.c[2],
         game.alphabets_upgrades.c[4],
         game.alphabets_upgrades.c[2],
-        game.alphabets_upgrades.c[4]],
+        game.alphabets_upgrades.c[4],
+        game.alphabets_upgrades.c[6] & game.show_alphabets[4]],
         d: [game.show_alphabets[3],
         game.alphabets_upgrades.d[0],
         game.alphabets_upgrades.d[0],
         game.alphabets_upgrades.d[1],
         game.alphabets_upgrades.d[1],
         game.alphabets_upgrades.d[4],
-        game.alphabets_upgrades.d[4]],
+        game.alphabets_upgrades.d[4],
+        game.alphabets_upgrades.d[5] & game.show_alphabets[4]],
         e: [game.show_alphabets[4],
-        game.show_alphabets[4]
-        ],
+        game.show_alphabets[4],
+        game.alphabets_upgrades.e[0]],
     }
 }
 
@@ -194,8 +210,9 @@ function calc(dt){
     .add((game.alphabets_upgrades.a[0])?E((game.alphabets_upgrades.a[1])?5:1)
     .mul((game.alphabets_upgrades.a[2])?10:1)
     .mul((game.alphabets_upgrades.a[9])?game.value.a.add(1).log10().add(1).log10():1)
-    .mul((game.alphabets_upgrades.b[0])?game.value.b.pow(1/((game.alphabets_upgrades.b[4])?3:4)).add(1):1)
+    .mul((game.alphabets_upgrades.b[0])?game.value.b.pow(1/((game.alphabets_upgrades.b[4] || game.alphabets_upgrades.e[2])?((game.alphabets_upgrades.e[2])?2:3):4)).add(1):1)
     .mul((game.alphabets_upgrades.b[2])?10:1)
+    .mul((game.alphabets_upgrades.b[9])?2:1)
     .mul((game.alphabets_upgrades.c[0])?5:1)
     .mul((game.alphabets_upgrades.c[2])?game.value.c.pow(1/((game.alphabets_upgrades.d[2])?5:8)).add(1):1)
     .mul((game.alphabets_upgrades.d[0])?5:1)
@@ -228,7 +245,15 @@ function calc(dt){
     }
     
     for(let i = 0; i < game.show_alphabets.length; i++){
-        if(game.aplhabets_autobuyer[i])for(let j = 0; j < game.show_alphabets_upgrades[alphabet_string[i]].length; j++){
+        if(game.aplhabets_autobuyer[i] || keysDown[77])for(let j = 0; j < game.show_alphabets_upgrades[alphabet_string[i]].length; j++){
+            if(game.show_alphabets_upgrades[alphabet_string[i]][j])buyAlpUpgrade(alphabet_string[i], j);
+        }
+    }
+}
+
+function buyAllUpgrades() {
+    for(let i = 0; i < game.show_alphabets.length; i++){
+        for(let j = 0; j < game.show_alphabets_upgrades[alphabet_string[i]].length; j++){
             if(game.show_alphabets_upgrades[alphabet_string[i]][j])buyAlpUpgrade(alphabet_string[i], j);
         }
     }

@@ -16,13 +16,14 @@
   </head>  
   <body>
     <div id="news_ticker">Welcome Unlimited Alphabets!</div>
-    <h1>Unlimited Alphabets v0.1.1a</h1>
+    <h1>Unlimited Alphabets v0.1.2a</h1>
     <div id="tabsBlock">
       <button class="tab1" onclick="switchTabs('alphabets')">Alphabets</button>
       <button class="tab1" onclick="switchTabs('upgrades')">Upgrades</button>
       <button class="tab1" onclick="switchTabs('options')">Options</button>
     </div>
     <div class="main" id="alphabets">
+      <button class="tab1" style="font-size: 15px;" onclick="buyAllUpgrades()">Buy all upgrades (M)</button>
       <table id="alphabets_tab">
         <tbody>
           <td class="alphabet_tab" id="a_tab">
@@ -93,6 +94,9 @@
               <button class="alp_upgrade" style="display: block;" id="bus9" onclick="buyAlpUpgrade('b',8)">
                 Multiply c & d production by 5.<br>b-<span id="bu9"></span>
               </button>
+              <button class="alp_upgrade" style="display: block;" id="bus10" onclick="buyAlpUpgrade('b',9)">
+                Multiply a & e production by 2.<br>b-<span id="bu10"></span>
+              </button>
           </td>
           <td class="alphabet_tab" id="c_tab">
             <button class="alp_upgrade" id="brd" onclick="resetAlp(3)">
@@ -123,6 +127,9 @@
               <button class="alp_upgrade" style="display: block;" id="cus8" onclick="buyAlpUpgrade('c',7)">
                 Square b production.<br>c-<span id="cu8"></span>
               </button>
+              <button class="alp_upgrade" style="display: block;" id="cus9" onclick="buyAlpUpgrade('c',8)">
+                Multiply d & e production by 2.<br>c-<span id="cu9"></span>
+              </button>
             </div>
           </td>
           <td class="alphabet_tab" id="d_tab">
@@ -151,6 +158,9 @@
               <button class="alp_upgrade" style="display: block;" id="dus7" onclick="buyAlpUpgrade('d',6)">
                 Multiply c production by d^1/4+1.<br>Currently: x<span id="c8"></span><br>d-<span id="du7"></span>
               </button>
+              <button class="alp_upgrade" style="display: block;" id="dus8" onclick="buyAlpUpgrade('d',7)">
+                Gain 2x e.<br>d-<span id="du8"></span>
+              </button>
             </div>
           </td>
           <td class="alphabet_tab" id="e_tab">
@@ -160,6 +170,9 @@
               </button>
               <button class="alp_upgrade" style="display: block;" id="eus2" onclick="buyAlpUpgrade('e',1)">
                 Multiply b & c production by e^1/8+1.<br>Currently: x<span id="c9"></span><br>e-<span id="eu2"></span>
+              </button>
+              <button class="alp_upgrade" style="display: block;" id="eus3" onclick="buyAlpUpgrade('e',2)">
+                b1 upgrade formula is better. b^1/4+1 -> b^1/2+1 (keep b5 upgrade).<br>e-<span id="eu3"></span>
               </button>
             </div>
           </td>
