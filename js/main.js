@@ -143,7 +143,7 @@ function updateDisplay(){
         game.alphabets_upgrades.a[4] & game.show_alphabets[2],
         game.alphabets_upgrades.a[7] & game.show_alphabets[3],
         game.alphabets_upgrades.a[5] & game.show_alphabets[1]],
-        b: [game.show_alphabets[0],
+        b: [true,
         game.alphabets_upgrades.b[0],
         game.alphabets_upgrades.b[0],
         game.alphabets_upgrades.b[1],
@@ -201,7 +201,8 @@ function resetAlp(alp){
                game.alphabets_upgrades[alphabet_string[i]][j] = false;
            }
         }
-        game.show_alphabets[alp] = true; 
+
+        if(alp+1 < game.show_alphabets.length) game.show_alphabets[alp+1] = true; 
     }
 }
 
