@@ -32,7 +32,7 @@ function wipe(){
       d: [E(5), E(15), E(65), E(225), E('1.5e3'), E('2.5e4'), E('3e5'), E('1.5e6')],
       e: [E(5), E(20), E(100)],
     },
-    show_alphabets: [true, false, false, false, false],
+    show_alphabets: [true, true, false, false, false],
     show_alphabets_upgrades: {
       a: [true, false, false, false, false, false, false, false, false, false],
       b: [false, false, false, false, false, false, false, false, false, false],
