@@ -202,6 +202,7 @@ function resetAlp(alp){
            }
         }
 
+        game.show_alphabets[alp] = true;
         if(alp+1 < game.show_alphabets.length) game.show_alphabets[alp+1] = true; 
     }
 }
