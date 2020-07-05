@@ -143,7 +143,7 @@ function updateDisplay(){
         game.alphabets_upgrades.a[4] & game.show_alphabets[2],
         game.alphabets_upgrades.a[7] & game.show_alphabets[3],
         game.alphabets_upgrades.a[5] & game.show_alphabets[1]],
-        b: [true,
+        b: [game.show_alphabets[0],
         game.alphabets_upgrades.b[0],
         game.alphabets_upgrades.b[0],
         game.alphabets_upgrades.b[1],
