@@ -16,10 +16,11 @@
   </head>  
   <body>
     <div id="news_ticker">Welcome Unlimited Alphabets!</div>
-    <h1>Unlimited Alphabets v0.1.2.1a</h1>
+    <h1>Unlimited Alphabets v0.1.3a</h1>
     <div id="tabsBlock">
       <button class="tab1" onclick="switchTabs('alphabets')">Alphabets</button>
       <button class="tab1" onclick="switchTabs('upgrades')">Upgrades</button>
+      <button class="tab1" id='singularity' onclick="switchTabs('sing')" style="background-color: aqua; border-color: blue;">Singularity</button>
       <button class="tab1" onclick="switchTabs('options')">Options</button>
     </div>
     <div class="main" id="alphabets">
@@ -164,6 +165,9 @@
             </div>
           </td>
           <td class="alphabet_tab" id="e_tab">
+            <button class="alp_upgrade" id="brf" onclick="resetAlp(5)">
+              Reset for<br>f-<span id="rf"></span>
+            </button>
             <div class="alp_main" id="e_value"></div>
               <button class="alp_upgrade" id="eus1" onclick="buyAlpUpgrade('e',0)">
                 Multiply a & d production by 5.<br>e-<span id="eu1"></span>
@@ -174,25 +178,56 @@
               <button class="alp_upgrade" style="display: block;" id="eus3" onclick="buyAlpUpgrade('e',2)">
                 b1 upgrade formula is better. b^1/4+1 -> b^1/2+1 (keep b5 upgrade).<br>e-<span id="eu3"></span>
               </button>
+              <button class="alp_upgrade" style="display: block;" id="eus4" onclick="buyAlpUpgrade('e',3)">
+                You can gain 0.1% of getting e without reset.<br>Currently: <span id="c10"></span>/s<br>e-<span id="eu4"></span>
+              </button>
+              <button class="alp_upgrade" style="display: block;" id="eus5" onclick="buyAlpUpgrade('e',4)">
+                ^1.2 c production.<br>e-<span id="eu5"></span>
+              </button>
+              <button class="alp_upgrade" style="display: block;" id="eus6" onclick="buyAlpUpgrade('e',5)">
+                d7 upgrade formula is better.<br>d^1/4+1 -> d^1/3+1<br>e-<span id="eu6"></span>
+              </button>
+              <button class="alp_upgrade" style="display: block;" id="eus7" onclick="buyAlpUpgrade('e',6)">
+                Multiply d6 upgrade by 5.<br>e-<span id="eu7"></span>
+              </button>
+            </div>
+          </td>
+          <td class="alphabet_tab" id="f_tab">
+            <div class="alp_main" id="f_value"></div>
+              <button class="alp_upgrade" id="fus1" onclick="buyAlpUpgrade('f',0)">
+                Multiply a & e production by 5.<br>f-<span id="fu1"></span>
+              </button>
             </div>
           </td>
         </tbody>
       </table>
     </div>
+    <div class="main" id="sing" style="display: none;">
+      <h2>Singularity</h2>
+      <div>Have <span id="sing1" style="font-size: 25px;"></span> singularity power of <span id="sing2" style="font-size: 25px;"></span> all alphabets productions</div>
+      <div>You getting <span id="sing3" style="font-size: 25px;"></span> singularity power per second</div>
+      <div>Resets singularity power on reset each alphabet, but not resets singularity upgrades</div>
+      <h2>Singularity Upgrades</h2>
+      <button class="alp_upgrade" id="singus1" onclick="buySingUpgrade(0)">
+        Multiply singularity production by 2.<br><span id="singu1"></span> SP
+      </button>
+    </div>
     <div class="main" id="upgrades" style="display: none;">
-      <h2>Autobuyer</h2>
+      <h2>Autobuyers</h2>
       <div>
         <button class="alp_upgrade" id="afa" onclick="buyAAutobuyer('a')">Autobuyer for a<br>a-1e15</button>
         <button class="alp_upgrade" id="afb" onclick="buyAAutobuyer('b')">Autobuyer for b<br>b-1e15</button>
         <button class="alp_upgrade" id="afc" onclick="buyAAutobuyer('c')">Autobuyer for c<br>c-1e15</button>
         <button class="alp_upgrade" id="afd" onclick="buyAAutobuyer('d')">Autobuyer for d<br>d-1e15</button>
         <button class="alp_upgrade" id="afe" onclick="buyAAutobuyer('e')">Autobuyer for e<br>e-1e15</button>
+        <button class="alp_upgrade" id="aff" onclick="buyAAutobuyer('f')">Autobuyer for f<br>f-1e15</button>
       </div>
     </div>
     <div class="main" id="options" style="display: none;">
       <button class="tab1" onclick="Export()">Export! (Copy)</button>
       <button class="tab1" onclick="Import()">Import!</button>
       <button class="tab1 wipe" onclick="wipe()">WIPE!</button>
+      <button class="tab1" onclick="ChangeNotation()" style="display: block;">Notation: <span id="notation"></span></button>
       <div id="outputExport"></div>
     </div>
   </body>
