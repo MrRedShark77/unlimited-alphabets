@@ -1,234 +1,66 @@
-<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Greek_uc_alpha.svg/1200px-Greek_uc_alpha.svg.png">
-    <title>Unlimited Alphabets</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 
-    <link rel="stylesheet" href="style/style.css">
-
-    <script src="js/newsTicker.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="js/ExpantaNum.js"></script>
-    <script src="js/saves.js" defer></script>
-    <script src="js/main.js" defer></script>
-  </head>  
-  <body>
-    <div id="news_ticker">Welcome Unlimited Alphabets!</div>
-    <h1>Unlimited Alphabets v0.1.3a</h1>
-    <div id="tabsBlock">
-      <button class="tab1" onclick="switchTabs('alphabets')">Alphabets</button>
-      <button class="tab1" onclick="switchTabs('upgrades')">Upgrades</button>
-      <button class="tab1" id='singularity' onclick="switchTabs('sing')" style="background-color: aqua; border-color: blue;">Singularity</button>
-      <button class="tab1" onclick="switchTabs('options')">Options</button>
-    </div>
-    <div class="main" id="alphabets">
-      <button class="tab1" style="font-size: 15px;" onclick="buyAllUpgrades()">Buy all upgrades (M)</button>
-      <table id="alphabets_tab">
-        <tbody>
-          <td class="alphabet_tab" id="a_tab">
-            <button class="alp_upgrade" id="brb" onclick="resetAlp(1)">Reset for<br>b-<span id="rb"></span></button>
-            <div class="alp_main" id="a_value"></div>
-            <div>
-              <button class="alp_upgrade" id="aus1" onclick="buyAlpUpgrade('a',0)">
-                Start to generate of a.<br>a-<span id="au1"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="aus2" onclick="buyAlpUpgrade('a',1)">
-                Multiply a production by 5.<br>a-<span id="au2"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="aus3" onclick="buyAlpUpgrade('a',2)">
-                Multiply a production by 10.<br>a-<span id="au3"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="aus4" onclick="buyAlpUpgrade('a',3)">
-                Square a production.<br>a-<span id="au4"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="aus5" onclick="buyAlpUpgrade('a',4)">
-                Gain 5x b.<br>a-<span id="au5"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="aus6" onclick="buyAlpUpgrade('a',5)">
-                ^1.2 a production.<br>a-<span id="au6"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="aus7" onclick="buyAlpUpgrade('a',6)">
-                Gain 10x b.<br>a-<span id="au7"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="aus8" onclick="buyAlpUpgrade('a',7)">
-                Gain 3x c.<br>a-<span id="au8"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="aus9" onclick="buyAlpUpgrade('a',8)">
-                Gain 3x d.<br>a-<span id="au9"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="aus10" onclick="buyAlpUpgrade('a',9)">
-                Multiply all alphabets production by log10(log10(a+1)+1).<br>Currently: x<span id="c6"></span><br>a-<span id="au10"></span>
-              </button>
+    <script src="js/saves.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/v.js"></script>
+
+    <title>Unlimited Alphabets Beta</title>
+</head>
+<body onload="loadGame()">
+    <div id="app">
+        <div class="table_inline" style="margin-bottom: 10px;">
+            <div class="tab" v-for="x in TABS.tab.name.length" v-if="TABS.tab.unl[x-1]()" v-on:click="player.tab = x">
+                {{ TABS.tab.name[x-1] }}
             </div>
-          </td>
-          <td class="alphabet_tab" id="b_tab">
-            <button class="alp_upgrade" id="brc" onclick="resetAlp(2)">
-              Reset for<br>c-<span id="rc"></span>
-            </button>
-            <div class="alp_main" id="b_value"></div>
-              <button class="alp_upgrade" id="bus1" onclick="buyAlpUpgrade('b',0)">
-                Multiply a production by b^1/4+1.<br>Currently: x<span id="c1"></span><br>b-<span id="bu1"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="bus2" onclick="buyAlpUpgrade('b',1)">
-                Gain 2x b.<br>b-<span id="bu2"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="bus3" onclick="buyAlpUpgrade('b',2)">
-                Multiply a production by 10.<br>b-<span id="bu3"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="bus4" onclick="buyAlpUpgrade('b',3)">
-                You can gain 0.1% of getting b without reset.<br>Currently: <span id="c3"></span>/s<br>b-<span id="bu4"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="bus5" onclick="buyAlpUpgrade('b',4)">
-                b1 upgrade formula is better.<br>b^1/4+1 -> b^1/3+1<br>b-<span id="bu5"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="bus6" onclick="buyAlpUpgrade('b',5)">
-                Gain 2x c.<br>b-<span id="bu6"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="bus7" onclick="buyAlpUpgrade('b',6)">
-                Multiply c production by log10(a+1)^1/2.<br>Currently: x<span id="c4"></span><br>b-<span id="bu7"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="bus8" onclick="buyAlpUpgrade('b',7)">
-                Gain 2x d.<br>b-<span id="bu8"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="bus9" onclick="buyAlpUpgrade('b',8)">
-                Multiply c & d production by 5.<br>b-<span id="bu9"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="bus10" onclick="buyAlpUpgrade('b',9)">
-                Multiply a & e production by 2.<br>b-<span id="bu10"></span>
-              </button>
-          </td>
-          <td class="alphabet_tab" id="c_tab">
-            <button class="alp_upgrade" id="brd" onclick="resetAlp(3)">
-              Reset for<br>d-<span id="rd"></span>
-            </button>
-            <div class="alp_main" id="c_value"></div>
-              <button class="alp_upgrade" id="cus1" onclick="buyAlpUpgrade('c',0)">
-                Multiply a production by 5.<br>c-<span id="cu1"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="cus2" onclick="buyAlpUpgrade('c',1)">
-                ^1.1 b production.<br>c-<span id="cu2"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="cus3" onclick="buyAlpUpgrade('c',2)">
-                Multiply a & b production by c^1/8+1.<br>Currently: x<span id="c2"></span><br>c-<span id="cu3"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="cus4" onclick="buyAlpUpgrade('c',3)">
-                Multiply b4 upgrade by 5.<br>c-<span id="cu4"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="cus5" onclick="buyAlpUpgrade('c',4)">
-                Multiply b production by 10.<br>c-<span id="cu5"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="cus6" onclick="buyAlpUpgrade('c',5)">
-                You can gain 0.1% of getting c without reset.<br>Currently: <span id="c5"></span>/s<br>c-<span id="cu6"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="cus7" onclick="buyAlpUpgrade('c',6)">
-                b7 upgrade formula is better.<br>log10(a+1)^1/2 -> log10(a+1)^3/4<br>c-<span id="cu7"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="cus8" onclick="buyAlpUpgrade('c',7)">
-                Square b production.<br>c-<span id="cu8"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="cus9" onclick="buyAlpUpgrade('c',8)">
-                Multiply d & e production by 2.<br>c-<span id="cu9"></span>
-              </button>
+        </div><div v-if="player.tab == 1">
+            <div class="table_inline">
+                <button onclick="if (confirm('You wanted to RESET your progress to new game?')) {wipe(); location.reload()}">Hard Reset</button>
+                <button onclick="save()">Save</button>
+                <button onclick="importy()">Import</button>
+                <button onclick="exporty()">Export</button>
+            </div><br>
+            (Version: Beta v1)
+        </div><div v-if="player.tab == 2">
+            You have played for {{ notate(player.ticks/1000,0) }} seconds
+        </div><div v-if="player.tab == 3">
+            <div style="height: 135px;">
+                <div class="table_inline alp_tab_scroll" style="border: solid 3px white;">
+                    <div class="alp_tab" v-for="x in FUNCTIONS.alps.have()" v-on:click="player.alp_tab = x">
+                        <h2 style="font-size: 30px;">{{ FUNCTIONS.alphabet(x) }}</h2><br>
+                        {{FUNCTIONS.alphabet(x)}}-{{ notate(player.alphabets[FUNCTIONS.alphabet(x)].resource, 0) }}<br>
+                        <span v-if="FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)]">(+{{ notate(FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)](),0) }}/s)</span>
+                    </div>
+                </div>
+            </div><div>
+                <div v-for="x in UPGRADES.total" v-if="x == player.alp_tab && player.alphabets[FUNCTIONS.alphabet(x)]">
+                    <div class="table_center" style="height: 100px;">
+                        <div v-bind:class="{open: FUNCTIONS.alps.gain[FUNCTIONS.alphabet(x)]().gte(1), closed: FUNCTIONS.alps.gain[FUNCTIONS.alphabet(x)]().lt(1)}" class="alp_reset table_center" v-if="player.alphabets[FUNCTIONS.alphabet(x+1)]" v-on:click="FUNCTIONS.alps.reset(x)">
+                            Reset for<br>{{ FUNCTIONS.alphabet(x+1) }}-{{ notate(FUNCTIONS.alps.gain.a(FUNCTIONS.alphabet(x)),0) }}
+                        </div>
+                    </div><br>
+                    You have <h2>{{ FUNCTIONS.alphabet(x) }}-{{ notate(player.alphabets[FUNCTIONS.alphabet(x)].resource, 0) }}</h2><br>
+                    <span v-if="FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)]">(+{{ notate(FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)](),0) }}/s)</span><br><br>
+                    <div class="table_inline" style="flex-wrap: wrap;">
+                        <div class="alp_upg"
+                            v-bind:class="{open: player.alphabets[FUNCTIONS.alphabet(x)].resource.gte(UPGRADES.alps[FUNCTIONS.alphabet(x)][r].cost) && !UPGRADES.bought(FUNCTIONS.alphabet(x), r),
+                            closed: player.alphabets[FUNCTIONS.alphabet(x)].resource.lt(UPGRADES.alps[FUNCTIONS.alphabet(x)][r].cost) && !UPGRADES.bought(FUNCTIONS.alphabet(x), r),
+                            bought: UPGRADES.bought(FUNCTIONS.alphabet(x), r)}"
+                            v-for="r in UPGRADES.alps[FUNCTIONS.alphabet(x)].row" v-if="UPGRADES.alps[FUNCTIONS.alphabet(x)][r].unl()"
+                            v-on:click="UPGRADES.buy(FUNCTIONS.alphabet(x), r)">
+                            <div style="height: 70px;">{{ UPGRADES.alps[FUNCTIONS.alphabet(x)][r].desc }}</div>
+                            Cost: {{ FUNCTIONS.alphabet(x) }}-{{ notate(UPGRADES.alps[FUNCTIONS.alphabet(x)][r].cost,0) }}
+                            <span v-if="UPGRADES.alps[FUNCTIONS.alphabet(x)][r].cur"><br>Currently: {{ UPGRADES.alps[FUNCTIONS.alphabet(x)][r].curDesc(UPGRADES.alps[FUNCTIONS.alphabet(x)][r].cur()) }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </td>
-          <td class="alphabet_tab" id="d_tab">
-            <button class="alp_upgrade" id="bre" onclick="resetAlp(4)">
-              Reset for<br>e-<span id="re"></span>
-            </button>
-            <div class="alp_main" id="d_value"></div>
-              <button class="alp_upgrade" id="dus1" onclick="buyAlpUpgrade('d',0)">
-                Multiply a & b production by 5.<br>d-<span id="du1"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="dus2" onclick="buyAlpUpgrade('d',1)">
-                ^1.1 a & c production.<br>d-<span id="du2"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="dus3" onclick="buyAlpUpgrade('d',2)">
-                c3 upgrade formula is better.<br>c^1/8+1 -> c^1/5+1<br>d-<span id="du3"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="dus4" onclick="buyAlpUpgrade('d',3)">
-                Multiply b & c production by 5.<br>d-<span id="du4"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="dus5" onclick="buyAlpUpgrade('d',4)">
-                Multiply c6 upgrade by 5.<br>d-<span id="du5"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="dus6" onclick="buyAlpUpgrade('d',5)">
-                You can gain 0.1% of getting d without reset.<br>Currently: <span id="c7"></span>/s<br>d-<span id="du6"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="dus7" onclick="buyAlpUpgrade('d',6)">
-                Multiply c production by d^1/4+1.<br>Currently: x<span id="c8"></span><br>d-<span id="du7"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="dus8" onclick="buyAlpUpgrade('d',7)">
-                Gain 2x e.<br>d-<span id="du8"></span>
-              </button>
-            </div>
-          </td>
-          <td class="alphabet_tab" id="e_tab">
-            <button class="alp_upgrade" id="brf" onclick="resetAlp(5)">
-              Reset for<br>f-<span id="rf"></span>
-            </button>
-            <div class="alp_main" id="e_value"></div>
-              <button class="alp_upgrade" id="eus1" onclick="buyAlpUpgrade('e',0)">
-                Multiply a & d production by 5.<br>e-<span id="eu1"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="eus2" onclick="buyAlpUpgrade('e',1)">
-                Multiply b & c production by e^1/8+1.<br>Currently: x<span id="c9"></span><br>e-<span id="eu2"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="eus3" onclick="buyAlpUpgrade('e',2)">
-                b1 upgrade formula is better. b^1/4+1 -> b^1/2+1 (keep b5 upgrade).<br>e-<span id="eu3"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="eus4" onclick="buyAlpUpgrade('e',3)">
-                You can gain 0.1% of getting e without reset.<br>Currently: <span id="c10"></span>/s<br>e-<span id="eu4"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="eus5" onclick="buyAlpUpgrade('e',4)">
-                ^1.2 c production.<br>e-<span id="eu5"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="eus6" onclick="buyAlpUpgrade('e',5)">
-                d7 upgrade formula is better.<br>d^1/4+1 -> d^1/3+1<br>e-<span id="eu6"></span>
-              </button>
-              <button class="alp_upgrade" style="display: block;" id="eus7" onclick="buyAlpUpgrade('e',6)">
-                Multiply d6 upgrade by 5.<br>e-<span id="eu7"></span>
-              </button>
-            </div>
-          </td>
-          <td class="alphabet_tab" id="f_tab">
-            <div class="alp_main" id="f_value"></div>
-              <button class="alp_upgrade" id="fus1" onclick="buyAlpUpgrade('f',0)">
-                Multiply a & e production by 5.<br>f-<span id="fu1"></span>
-              </button>
-            </div>
-          </td>
-        </tbody>
-      </table>
+        </div>
     </div>
-    <div class="main" id="sing" style="display: none;">
-      <h2>Singularity</h2>
-      <div>Have <span id="sing1" style="font-size: 25px;"></span> singularity power of <span id="sing2" style="font-size: 25px;"></span> all alphabets productions</div>
-      <div>You getting <span id="sing3" style="font-size: 25px;"></span> singularity power per second</div>
-      <div>Resets singularity power on reset each alphabet, but not resets singularity upgrades</div>
-      <h2>Singularity Upgrades</h2>
-      <button class="alp_upgrade" id="singus1" onclick="buySingUpgrade(0)">
-        Multiply singularity production by 2.<br><span id="singu1"></span> SP
-      </button>
-    </div>
-    <div class="main" id="upgrades" style="display: none;">
-      <h2>Autobuyers</h2>
-      <div>
-        <button class="alp_upgrade" id="afa" onclick="buyAAutobuyer('a')">Autobuyer for a<br>a-1e15</button>
-        <button class="alp_upgrade" id="afb" onclick="buyAAutobuyer('b')">Autobuyer for b<br>b-1e15</button>
-        <button class="alp_upgrade" id="afc" onclick="buyAAutobuyer('c')">Autobuyer for c<br>c-1e15</button>
-        <button class="alp_upgrade" id="afd" onclick="buyAAutobuyer('d')">Autobuyer for d<br>d-1e15</button>
-        <button class="alp_upgrade" id="afe" onclick="buyAAutobuyer('e')">Autobuyer for e<br>e-1e15</button>
-        <button class="alp_upgrade" id="aff" onclick="buyAAutobuyer('f')">Autobuyer for f<br>f-1e15</button>
-      </div>
-    </div>
-    <div class="main" id="options" style="display: none;">
-      <button class="tab1" onclick="Export()">Export! (Copy)</button>
-      <button class="tab1" onclick="Import()">Import!</button>
-      <button class="tab1 wipe" onclick="wipe()">WIPE!</button>
-      <button class="tab1" onclick="ChangeNotation()" style="display: block;">Notation: <span id="notation"></span></button>
-      <div id="outputExport"></div>
-    </div>
-  </body>
+</body>
 </html>
