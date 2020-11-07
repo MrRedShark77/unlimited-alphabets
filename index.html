@@ -34,18 +34,18 @@
                     <div class="alp_tab" v-for="x in FUNCTIONS.alps.have()" v-on:click="player.alp_tab = x">
                         <h2 style="font-size: 30px;">{{ FUNCTIONS.alphabet(x) }}</h2><br>
                         {{FUNCTIONS.alphabet(x)}}-{{ notate(player.alphabets[FUNCTIONS.alphabet(x)].resource, 0) }}<br>
-                        <span v-if="FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)]">(+{{ notate(FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)](),0) }}/s)</span>
+                        <span v-if="FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)] && player.automators[1] >= x-1">(+{{ notate(FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)](),0) }}/s)</span>
                     </div>
                 </div>
             </div><div>
                 <div v-for="x in UPGRADES.total" v-if="x == player.alp_tab && player.alphabets[FUNCTIONS.alphabet(x)]">
                     <div class="table_center" style="height: 100px;">
                         <div v-bind:class="{open: FUNCTIONS.alps.gain[FUNCTIONS.alphabet(x)]().gte(1), closed: FUNCTIONS.alps.gain[FUNCTIONS.alphabet(x)]().lt(1)}" class="alp_reset table_center" v-if="player.alphabets[FUNCTIONS.alphabet(x+1)]" v-on:click="FUNCTIONS.alps.reset(x)">
-                            Reset for<br>{{ FUNCTIONS.alphabet(x+1) }}-{{ notate(FUNCTIONS.alps.gain.a(FUNCTIONS.alphabet(x)),0) }}
+                            Reset for<br>{{ FUNCTIONS.alphabet(x+1) }}-{{ notate(FUNCTIONS.alps.gain[FUNCTIONS.alphabet(x)](),0) }}
                         </div>
                     </div><br>
                     You have <h2>{{ FUNCTIONS.alphabet(x) }}-{{ notate(player.alphabets[FUNCTIONS.alphabet(x)].resource, 0) }}</h2><br>
-                    <span v-if="FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)]">(+{{ notate(FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)](),0) }}/s)</span><br><br>
+                    <span v-if="FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)] && player.automators[1] >= x-1">(+{{ notate(FUNCTIONS.alps.gps[FUNCTIONS.alphabet(x)](),0) }}/s)</span><br><br>
                     <div class="table_inline" style="flex-wrap: wrap;">
                         <div class="alp_upg"
                             v-bind:class="{open: player.alphabets[FUNCTIONS.alphabet(x)].resource.gte(UPGRADES.alps[FUNCTIONS.alphabet(x)][r].cost) && !UPGRADES.bought(FUNCTIONS.alphabet(x), r),
@@ -58,6 +58,22 @@
                             <span v-if="UPGRADES.alps[FUNCTIONS.alphabet(x)][r].cur"><br>Currently: {{ UPGRADES.alps[FUNCTIONS.alphabet(x)][r].curDesc(UPGRADES.alps[FUNCTIONS.alphabet(x)][r].cur()) }}</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div><div v-if="player.tab == 4">
+            <div class="table_center" style="justify-content: space-around;">
+                <div class='auto_upg' v-bind:class="{open: FUNCTIONS.automators.can(0), closed: !FUNCTIONS.automators.can(0)}" onclick="FUNCTIONS.automators.buy(0)">
+                    <div style="height: 60px;">
+                        Make the next alphabet is automatically buy.
+                    </div>
+                    Currently: {{ (player.automators[0]>0)?FUNCTIONS.alphabet(player.automators[0]):'None' }}<br>
+                    Cost: {{ FUNCTIONS.alphabet(player.automators[0]+1) }}-{{ notate(FUNCTIONS.automators.cost[0]) }}
+                </div><div class='auto_upg' v-bind:class="{open: FUNCTIONS.automators.can(1), closed: !FUNCTIONS.automators.can(1)}" onclick="FUNCTIONS.automators.buy(1)">
+                    <div style="height: 60px;">
+                        Make the next alphabet is automatically gain.
+                    </div>
+                    Currently: {{ FUNCTIONS.alphabet(player.automators[1]+1) }}<br>
+                    Cost: {{ FUNCTIONS.alphabet(player.automators[1]+2) }}-{{ notate(FUNCTIONS.automators.cost[1]) }}
                 </div>
             </div>
         </div>

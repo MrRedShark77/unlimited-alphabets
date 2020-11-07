@@ -6,11 +6,12 @@ var player;
 
 const TABS = {
     tab: {
-        name: ['Options', 'Statistics', 'Alphabets'],
+        name: ['Options', 'Statistics', 'Alphabets', 'Automator'],
         unl: [
             _=>{ return true },
             _=>{ return true },
             _=>{ return true },
+            _=>{ return player.alphabets.c },
         ],
     },
 }
@@ -23,7 +24,7 @@ const FUNCTIONS = {
         return alphabets[x-1]
     },
     alps: {
-        reset_formula: (x)=>{ return E(25).pow(E(x).add(1).log10().div(4).sub(1)) },
+        reset_formula: (x, y)=>{ return E(25).pow(E(x).add(1).log10().div(3+y).sub(1)) },
         gps: {
             a: _=>{
                 if (!player.alphabets.a) return E(0)
@@ -32,17 +33,42 @@ const FUNCTIONS = {
                 .mul(UPGRADES.bought('a', 3)?10:1)
                 .mul(UPGRADES.bought('a', 5)?UPGRADES.alps.a[5].cur():1)
                 .mul(UPGRADES.bought('b', 1)?UPGRADES.alps.b[1].cur():1)
+                .mul(UPGRADES.bought('c', 2)?UPGRADES.alps.c[2].cur():1)
                 .mul(UPGRADES.bought('b', 3)?10:1)
+                .mul(UPGRADES.bought('c', 1)?2:1)
+                .mul(UPGRADES.bought('c', 3)?10:1)
                 .pow(UPGRADES.bought('a', 4)?2:1)
+                .pow(UPGRADES.bought('b', 5)?1.2:1)
+            },
+            b: _=>{
+                if (!player.alphabets.b) return E(0)
+                return FUNCTIONS.alps.gain.a().div(100)
+            },
+            c: _=>{
+                if (!player.alphabets.c) return E(0)
+                return FUNCTIONS.alps.gain.b().div(100)
             },
         },
         gain: {
             a: _=>{
                 if (!player.alphabets.a) return E(0)
-                return FUNCTIONS.alps.reset_formula(player.alphabets.a.resource)
+                return FUNCTIONS.alps.reset_formula(player.alphabets.a.resource,1)
+                .mul(UPGRADES.bought('a', 7)?2:1)
                 .mul(UPGRADES.bought('b', 2)?2:1)
+                .mul(UPGRADES.bought('b', 4)?UPGRADES.alps.b[4].cur():1)
+                .mul(UPGRADES.bought('c', 1)?2:1)
+                .mul(UPGRADES.bought('c', 2)?UPGRADES.alps.c[2].cur():1)
+                .mul(UPGRADES.bought('c', 4)?UPGRADES.alps.c[4].cur():1)
+                .pow(UPGRADES.bought('a', 6)?1.1:1)
                 .floor()
             },
+            b: _=>{
+                if (!player.alphabets.b) return E(0)
+                return FUNCTIONS.alps.reset_formula(player.alphabets.b.resource,2)
+                .mul(UPGRADES.bought('a', 7)?2:1)
+                .mul(UPGRADES.bought('b', 6)?2:1)
+                .floor()
+            }
         },
         have: _=>{ return Object.keys(player.alphabets).length },
         add: _=>{
@@ -65,13 +91,27 @@ const FUNCTIONS = {
             }
         },
     },
+    automators: {
+        cost: [E('e15'),E(15000)],
+        can: (x)=>{
+            if (!player.alphabets[FUNCTIONS.alphabet(1+x+player.automators[x])]) return false
+            return player.alphabets[FUNCTIONS.alphabet(1+x+player.automators[x])].resource.gte(FUNCTIONS.automators.cost[x])
+        },
+        buy: (x)=>{
+            let cost = FUNCTIONS.automators.cost[x]
+            if (FUNCTIONS.automators.can(x)) {
+                player.alphabets[FUNCTIONS.alphabet(1+x+player.automators[x])].resource = player.alphabets[FUNCTIONS.alphabet(1+x+player.automators[x])].resource.sub(cost)
+                player.automators[x]++
+            }
+        }
+    },
 }
 
 const UPGRADES = {
-    total: 2,
+    total: 3,
     alps: {
         a: {
-            row: 5,
+            row: 7,
             1: {
                 unl: _=>{ return true },
                 desc: "Start to generate a.",
@@ -102,9 +142,19 @@ const UPGRADES = {
                 },
                 curDesc: (x)=>{ return notate(x,2)+'x' },
             },
+            6: {
+                unl: _=>{ return UPGRADES.bought('a', 5) && player.alphabets.b },
+                desc: "Raise b gain by 1.1.",
+                cost: E(1e18),
+            },
+            7: {
+                unl: _=>{ return UPGRADES.bought('a', 6) && player.alphabets.c },
+                desc: "Gain x2 more b & c.",
+                cost: E(1e30),
+            },
         },
         b: {
-            row: 3,
+            row: 6,
             1: {
                 unl: _=>{ return true },
                 desc: "Multiply a production based on unspent b.",
@@ -125,11 +175,64 @@ const UPGRADES = {
                 desc: "Multiply a production by 10.",
                 cost: E(200),
             },
+            4: {
+                unl: _=>{ return UPGRADES.bought('b', 3) },
+                desc: "Gain more b based on unspent a.",
+                cost: E(25000),
+                cur: _=>{
+                    if (!player.alphabets.a) return E(1)
+                    return player.alphabets.a.resource.add(1).log10().add(1).pow(1/2)
+                },
+                curDesc: (x)=>{ return notate(x,2)+'x' },
+            },
+            5: {
+                unl: _=>{ return UPGRADES.bought('b', 4) },
+                desc: "Raise a production by 1.2.",
+                cost: E(5e7),
+            },
+            6: {
+                unl: _=>{ return UPGRADES.bought('b', 5) && player.alphabets.c },
+                desc: "Gain 2x more c.",
+                cost: E(1e15),
+            },
         },
+        c: {
+            row: 4,
+            1: {
+                unl: _=>{ return true },
+                desc: "Gain 2x more a & b.",
+                cost: E(1),
+            },
+            2: {
+                unl: _=>{ return true },
+                desc: "Gain more a & b based on unspent c.",
+                cost: E(25),
+                cur: _=>{
+                    if (!player.alphabets.c) return E(1)
+                    return player.alphabets.c.resource.add(1).pow(1/4)
+                },
+                curDesc: (x)=>{ return notate(x,2)+'x' },
+            },
+            3: {
+                unl: _=>{ return UPGRADES.bought('c', 2) },
+                desc: "Multiply a production by 10.",
+                cost: E(300),
+            },
+            4: {
+                unl: _=>{ return UPGRADES.bought('c', 2) },
+                desc: "Gain more b based on unspent b.",
+                cost: E(10000),
+                cur: _=>{
+                    if (!player.alphabets.b) return E(1)
+                    return player.alphabets.b.resource.add(1).logBase(100).add(1)
+                },
+                curDesc: (x)=>{ return notate(x,2)+'x' },
+            },
+        }
     },
     buy: (alp, id)=>{
         let cost = UPGRADES.alps[alp][id].cost
-        if (player.alphabets[alp]) if (player.alphabets[alp].resource.gte(cost) && !UPGRADES.bought(alp, id)) {
+        if (player.alphabets[alp]) if (player.alphabets[alp].resource.gte(cost) && !UPGRADES.bought(alp, id) && UPGRADES.alps[alp][id].unl()) {
             player.alphabets[alp].resource = player.alphabets[alp].resource.sub(cost)
             player.alphabets[alp].upgrades.push(id)
         }

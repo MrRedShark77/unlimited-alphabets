@@ -10,17 +10,19 @@ function ex(x){
 
 function calc(dt) {
     player.ticks += dt
-    for (let i = 1; i <= Object.keys(FUNCTIONS.alps.gps).length; i++) {
+    for (let i = 1; i <= Object.keys(FUNCTIONS.alps.gps).length; i++) if (i-1 <= player.automators[1]) {
         player.alphabets[FUNCTIONS.alphabet(i)].resource = player.alphabets[FUNCTIONS.alphabet(i)].resource.add(FUNCTIONS.alps.gps[FUNCTIONS.alphabet(i)]().mul(dt/1000))
     }
     if (FUNCTIONS.alps.have() <= Object.keys(FUNCTIONS.alps.gain).length) if (FUNCTIONS.alps.gain[FUNCTIONS.alphabet(FUNCTIONS.alps.have())]().gte(1)) {
         FUNCTIONS.alps.add()
     }
+    for (let i = 1; i <= UPGRADES.total; i++) if (player.automators[0] >= i) for (let r = 1; r <= UPGRADES.alps[FUNCTIONS.alphabet(i)].row; r++) UPGRADES.buy(FUNCTIONS.alphabet(i), r)
 }
 
 function wipe() {
     player = {
         alphabets: {},
+        automators: [0, 0],
         ticks: 0,
         tab: 3,
         alp_tab: 0,
@@ -68,6 +70,7 @@ function loadPlayer(load) {
         }
     }
     player.ticks = load.ticks
+    if (load.automators) player.automators = load.automators
 }
 
 function loadGame() {

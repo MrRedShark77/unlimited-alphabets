@@ -114,6 +114,13 @@ h1, h2 {
 	border: solid 3px white;
 }
 
+.auto_upg {
+	font-size: 12px;
+	width: 40%;
+	height: 100px;
+	border: solid 3px white;
+}
+
 [tooltip] {
 	position: relative;
 	z-index: 2;
