@@ -10,8 +10,9 @@ function ex(x){
 
 function calc(dt) {
     player.ticks += dt
-    for (let i = 1; i <= Object.keys(FUNCTIONS.alps.gps).length; i++) if (i-1 <= player.automators[1]) {
-        player.alphabets[FUNCTIONS.alphabet(i)].resource = player.alphabets[FUNCTIONS.alphabet(i)].resource.add(FUNCTIONS.alps.gps[FUNCTIONS.alphabet(i)]().mul(dt/1000))
+    if (player.alphabets.a) player.alphabets.a.resource = player.alphabets.a.resource.add(FUNCTIONS.alps.aps().mul(dt/1000))
+    for (let i = 1; i <= Object.keys(FUNCTIONS.alps.gain).length; i++) if (i <= player.automators[1]) if (player.alphabets[FUNCTIONS.alphabet(i+1)]) {
+        player.alphabets[FUNCTIONS.alphabet(i+1)].resource = player.alphabets[FUNCTIONS.alphabet(i+1)].resource.add(FUNCTIONS.alps.gps(i+1).mul(dt/1000))
     }
     if (FUNCTIONS.alps.have() <= Object.keys(FUNCTIONS.alps.gain).length) if (FUNCTIONS.alps.gain[FUNCTIONS.alphabet(FUNCTIONS.alps.have())]().gte(1)) {
         FUNCTIONS.alps.add()
